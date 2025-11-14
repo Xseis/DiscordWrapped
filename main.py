@@ -36,6 +36,13 @@ for file in os.listdir("package"):
                     messagesdata = json.loads(f.read())
                 
                 for message in messagesdata:
+                    year = message["Timestamp"][0:4]
+                    month = message["Timestamp"][5:7]
+                    day = message["Timestamp"][8:10]
+                    hour = message["Timestamp"][11:13]
+                    minute = message["Timestamp"][14:16]
+                    second = message["Timestamp"][17:19]
+                    # ONLY DMS
                     if channeldata["type"] == "DM":
                         recipient = [recipient for recipient in channeldata["recipients"] if recipient != userID][0]
                         if recipient not in dms:
@@ -45,10 +52,21 @@ for file in os.listdir("package"):
                             dms[recipient][message["Timestamp"][0:4]] = 0
                         dms[recipient][message["Timestamp"][0:4]] += 1
 
+                    # EVERY MESSAGE
                     totalmessages["total"] += 1
                     if message["Timestamp"][0:4] not in totalmessages:
                         totalmessages[message["Timestamp"][0:4]] = 0
                     totalmessages[message["Timestamp"][0:4]] += 1        
+
+                    if year not in message_activity:
+                        message_activity[year] = {"total": 0}
+                    if month not in message_activity[year]:
+                        message_activity[year][month] = {"total": 0}
+                    if day not in message_activity[year][month]:
+                        message_activity[year][month][day] = {"total": 0}
+                    message_activity[year][month][day]["total"] += 1
+                    message_activity[year][month]["total"] += 1
+                    message_activity[year]["total"] += 1
                 
     elif file == "Servers":
         pass
@@ -60,6 +78,14 @@ def getUsernameFromID(id):
     return data["username"]
 
 dms_sorted = sorted(dms.items(), key= lambda dm: dm[1]["total"])
+
+# print(message_activity)
+# for year in message_activity:
+#     print(year)
+#     for month in message_activity[year]:
+#         if month != "total":
+#             print(month, message_activity[year][month]["total"])
+        
 
 print(f"Total messages ever: {totalmessages["total"]}")
 print(f"Messages this year: {totalmessages[current_year]}")
