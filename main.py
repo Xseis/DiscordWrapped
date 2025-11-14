@@ -1,10 +1,16 @@
 import os
 import json
+import requests
 
-totalmessages = 0
+bot_token = os.environ.get("DISCORD_TOKEN")
+totalmessages = {"total": 0}
 channelmessages = {}
 servermessages = {}
 dms = {}
+
+message_activity = {}
+
+current_year = "2025"
 
 userID = 0
 
@@ -14,6 +20,7 @@ for file in os.listdir("package"):
             userdata = json.loads(f.read())
         
         userID = userdata["id"]
+
     elif file == "Activities":
         pass
     elif file == "Activity":
@@ -28,34 +35,34 @@ for file in os.listdir("package"):
                 with open(f"package/Messages/{channel}/messages.json", "r", encoding="utf-8") as f:
                     messagesdata = json.loads(f.read())
                 
-                channelmessages[channel] = {"messages": 0, "name": ""}
-
-                if "name" in channeldata:
-                    channelmessages[channel]["name"] = channeldata["name"]
-                if "guild" in channeldata:
-                    if channeldata["guild"]["id"] not in servermessages:
-                        servermessages[channeldata["guild"]["id"]] = {"name": channeldata["guild"]["name"], "messages": 0}
-
-                elif channeldata["type"] == "DM":
-                    channelmessages[channel]["type"] = "DM"
-                    channelmessages[channel]["name"] = [id for id in channeldata["recipients"] if id != userID]
-
                 for message in messagesdata:
-                    totalmessages += 1
-                    channelmessages[channel]["messages"] += 1
-                    if "guild" in channeldata:
-                        servermessages[channeldata["guild"]["id"]]["messages"] += 1
-                    #print(json.dumps(message, ensure_ascii=False, indent=4))
+                    if channeldata["type"] == "DM":
+                        recipient = [recipient for recipient in channeldata["recipients"] if recipient != userID][0]
+                        if recipient not in dms:
+                            dms[recipient] = {"total": 0}
+                        dms[recipient]["total"] += 1
+                        if message["Timestamp"][0:4] not in dms[recipient]:
+                            dms[recipient][message["Timestamp"][0:4]] = 0
+                        dms[recipient][message["Timestamp"][0:4]] += 1
+
+                    totalmessages["total"] += 1
+                    if message["Timestamp"][0:4] not in totalmessages:
+                        totalmessages[message["Timestamp"][0:4]] = 0
+                    totalmessages[message["Timestamp"][0:4]] += 1        
                 
     elif file == "Servers":
         pass
     elif file == "Support_Tickets":
         pass
-    print(file)
 
-print(f"Total messages: {totalmessages}")
-sorted_dict = dict(sorted(channelmessages.items(), key=lambda k: k[1]["messages"]))
-print(json.dumps(sorted_dict, indent=4, ensure_ascii=False))
+def getUsernameFromID(id):
+    data = requests.get(f"https://discord.com/api/users/{id}", headers={"Authorization": f"Bot {bot_token}"}).json()
+    return data["username"]
 
-sorted_dict = dict(sorted(servermessages.items(), key= lambda k: k[1]["messages"]))
-print(json.dumps(sorted_dict, indent=4, ensure_ascii=False))
+dms_sorted = sorted(dms.items(), key= lambda dm: dm[1]["total"])
+
+print(f"Total messages ever: {totalmessages["total"]}")
+print(f"Messages this year: {totalmessages[current_year]}")
+mostMessaged = dms_sorted[-1]
+print(f"\nMost messaged DM is {getUsernameFromID(mostMessaged[0])} with {mostMessaged[1]["total"]} total messages!")
+print(f"You sent them {mostMessaged[1][current_year]} messages this year")
