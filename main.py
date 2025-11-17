@@ -7,6 +7,7 @@ totalmessages = {"total": 0}
 channelmessages = {}
 servermessages = {}
 dms = {}
+groupdms = {}
 
 message_activity = {}
 
@@ -34,7 +35,7 @@ for file in os.listdir("package"):
                     channeldata = json.loads(f.read())
                 with open(f"package/Messages/{channel}/messages.json", "r", encoding="utf-8") as f:
                     messagesdata = json.loads(f.read())
-                
+
                 for message in messagesdata:
                     year = message["Timestamp"][0:4]
                     month = message["Timestamp"][5:7]
@@ -51,6 +52,13 @@ for file in os.listdir("package"):
                         if message["Timestamp"][0:4] not in dms[recipient]:
                             dms[recipient][message["Timestamp"][0:4]] = 0
                         dms[recipient][message["Timestamp"][0:4]] += 1
+                    
+                    if channeldata["type"] == "GROUP_DM":
+                        if "recipients" in channeldata:
+                            recipients = [recipient for recipient in channeldata["recipients"] if recipient != userID]
+                            if channeldata["id"] not in groupdms:
+                                groupdms[channeldata["id"]] = {"total": 0, "recipients": recipients, "name": channeldata["name"]}
+                            groupdms[channeldata["id"]]["total"] += 1
                     
                     if channeldata["type"] == "GUILD_TEXT":
                         if "guild" in channeldata:
@@ -94,7 +102,8 @@ dms_sorted = sorted(dms.items(), key= lambda dm: dm[1]["total"])
 #     for month in message_activity[year]:
 #         if month != "total":
 #             print(month, message_activity[year][month]["total"])
-        
+
+print(json.dumps(sorted(groupdms.items(), key= lambda gdm: gdm[1]["total"]), indent= 4))
 
 def Display():
     print(f"Total messages ever: {totalmessages["total"]}")
