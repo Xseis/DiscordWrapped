@@ -2,6 +2,9 @@
 Similar to Spotify wrapped, but for discord
 
 <H1>1. Get your discord bot token</H1>
+Go to [Discord Developer Portal](https://discord.com/developers/applications) 
+
+
 Set the environment variable "DISCORD_TOKEN" to your token by running setx
 ```cmd
 setx DISCORD_TOKEN YOUR_TOKEN_HERE
