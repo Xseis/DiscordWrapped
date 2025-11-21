@@ -1,6 +1,7 @@
 # DiscordWrapped
 Similar to Spotify wrapped, but for discord
 
+# HOW TO RUN
 ## 1. Request your discord data (REQUIRED)
 1. Select the cogwheel [] in the lower-left corner. 
 2. Select the Data & Privacy tab.
@@ -9,8 +10,6 @@ Similar to Spotify wrapped, but for discord
 <img width="400" height="283" alt="image" src="https://support.discord.com/hc/article_attachments/30074490845975" />
 
 *It will take up to 30 days before you recieve your data*
-
-
 
 
 ## 2. Get your discord bot token 
@@ -32,3 +31,7 @@ setx DISCORD_TOKEN YOUR_TOKEN_HERE
 export DISCORD_TOKEN="YOUR_TOKEN_HERE"
 ```
 
+## 4. Run
+Extract your data package, and put the package folder in the same directory as the main.py before running
+
+<img width="142" height="88" alt="{0A678610-2BC9-4A54-9971-6E46F5BD96FB}" src="https://github.com/user-attachments/assets/f16537f8-755e-47e6-be80-63e142697b73" />
