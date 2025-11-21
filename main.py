@@ -1,6 +1,9 @@
 import os
 import json
 import requests
+import time
+
+os.chdir(os.path.dirname(os.path.abspath(__file__)))
 
 bot_token = os.environ.get("DISCORD_TOKEN")
 totalmessages = {"total": 0}
@@ -14,7 +17,11 @@ message_activity = {}
 current_year = "2025"
 
 userID = 0
-
+if "package" not in os.listdir():
+    print("Could not find the package folder\nMake sure to put it in the same folder as the main.py file!")
+    print("\nClosing program in 5 seconds. . .")
+    time.sleep(5)
+    exit()
 for file in os.listdir("package"):
     if file == "Account":
         with open("package/Account/user.json", "r", encoding="utf-8") as f:
