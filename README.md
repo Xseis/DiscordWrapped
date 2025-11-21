@@ -3,7 +3,7 @@ Similar to Spotify wrapped, but for discord
 
 # HOW TO RUN
 ## 1. Request your discord data (REQUIRED)
-1. Select the cogwheel [] in the lower-left corner. 
+1. Select the cogwheel in the lower-left corner. 
 2. Select the Data & Privacy tab.
 3. Under Request your data, select the Request Data button.
 4. In the Submit Data Request window, select which data you'd like to receive. The data will be sent to your Discord account's email address. (For best results, choose everything)
