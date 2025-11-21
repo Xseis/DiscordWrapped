@@ -157,3 +157,4 @@ def Display():
     print(f"10th most messaged this year: {getUsernameFromID(num10Messagedthisyear[0])} with {num10Messagedthisyear[1][current_year]} total messages!")
 
 #Display()
+input("Press enter to exit")
