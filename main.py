@@ -30,7 +30,7 @@ for file in os.listdir("package"):
         userID = userdata["id"]
 
     elif file == "Activities":
-        pass
+        pass 
     elif file == "Activity":
         pass
     elif file == "Ads":
@@ -112,34 +112,36 @@ dms_sorted = sorted(dms.items(), key= lambda dm: dm[1]["total"])
 
 print(json.dumps(sorted(groupdms.items(), key= lambda gdm: gdm[1]["total"]), indent= 4))
 
+mostMessaged = dms_sorted[-1]
+num2Messaged = dms_sorted[-2]
+num3Messaged = dms_sorted[-3]
+num4Messaged = dms_sorted[-4]
+num5Messaged = dms_sorted[-5]
+num6Messaged = dms_sorted[-6]
+num7Messaged = dms_sorted[-7]
+num8Messaged = dms_sorted[-8]
+num9Messaged = dms_sorted[-9]
+num10Messaged = dms_sorted[-10]
+dms_thisyear = []
+for dm in dms.items():
+    if current_year in dm[1]:
+        dms_thisyear.append(dm)
+dms_thisyear = sorted(dms_thisyear, key= lambda dm: dm[1][current_year])
+mostMessagedthisyear = dms_thisyear[-1]
+num2Messagedthisyear = dms_thisyear[-2]
+num3Messagedthisyear = dms_thisyear[-3]
+num4Messagedthisyear = dms_thisyear[-4]
+num5Messagedthisyear = dms_thisyear[-5]
+num6Messagedthisyear = dms_thisyear[-6]
+num7Messagedthisyear = dms_thisyear[-7]
+num8Messagedthisyear = dms_thisyear[-8]
+num9Messagedthisyear = dms_thisyear[-9]
+num10Messagedthisyear = dms_thisyear[-10]
+
 def Display():
     print(f"Total messages ever: {totalmessages["total"]}")
     print(f"Messages this year: {totalmessages[current_year]}")
-    mostMessaged = dms_sorted[-1]
-    num2Messaged = dms_sorted[-2]
-    num3Messaged = dms_sorted[-3]
-    num4Messaged = dms_sorted[-4]
-    num5Messaged = dms_sorted[-5]
-    num6Messaged = dms_sorted[-6]
-    num7Messaged = dms_sorted[-7]
-    num8Messaged = dms_sorted[-8]
-    num9Messaged = dms_sorted[-9]
-    num10Messaged = dms_sorted[-10]
-    dms_thisyear = []
-    for dm in dms.items():
-        if current_year in dm[1]:
-            dms_thisyear.append(dm)
-    dms_thisyear = sorted(dms_thisyear, key= lambda dm: dm[1][current_year])
-    mostMessagedthisyear = dms_thisyear[-1]
-    num2Messagedthisyear = dms_thisyear[-2]
-    num3Messagedthisyear = dms_thisyear[-3]
-    num4Messagedthisyear = dms_thisyear[-4]
-    num5Messagedthisyear = dms_thisyear[-5]
-    num6Messagedthisyear = dms_thisyear[-6]
-    num7Messagedthisyear = dms_thisyear[-7]
-    num8Messagedthisyear = dms_thisyear[-8]
-    num9Messagedthisyear = dms_thisyear[-9]
-    num10Messagedthisyear = dms_thisyear[-10]
+    
     print(f"\nMost messaged DM is {getUsernameFromID(mostMessaged[0])} with {mostMessaged[1]["total"]} total messages!")
     print(f"You sent them {mostMessaged[1][current_year]} messages this year")
     print(f"2nd most messaged: {getUsernameFromID(num2Messaged[0])} with {num2Messaged[1]["total"]} total messages!")
@@ -164,4 +166,8 @@ def Display():
     print(f"10th most messaged this year: {getUsernameFromID(num10Messagedthisyear[0])} with {num10Messagedthisyear[1][current_year]} total messages!")
 
 #Display()
+
+with open("react-app/public/output.txt", "w") as f:
+    f.write(f"Most messaged DM is {getUsernameFromID(mostMessaged[0])} with {mostMessaged[1]["total"]} total messages!")
+
 input("Press enter to exit")
